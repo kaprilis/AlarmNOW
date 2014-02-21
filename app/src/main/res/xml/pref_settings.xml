@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/setting_title">-->
+    <!--<CheckBoxPreference android:key="enabled"-->
+        <!--android:persistent="false"-->
+        <!--android:title="@string/alarm_enabled" />-->
+    <!--<Preference android:key="time"-->
+        <!--android:persistent="false"-->
+        <!--android:title="@string/alarm_time"/>-->
+    <!--<MultiSelectListPreference android:key="alarm_repeat"-->
+        <!--android:summary=""/>-->
+    <!--<RingtonePreference android:key="alarm_ringtone"-->
+        <!--android:summary="@string/pref_title_ringtone"/>-->
+    <!--<CheckBoxPreference android:key="vibrate"-->
+        <!--android:persistent="false"-->
+        <!--android:title="@string/alarm_vibrate"/>-->
+    <!--<EditTextPreference android:key="label"-->
+        <!--android:persistent="false"-->
+        <!--android:title="@string/alarm_label"-->
+        <!--android:dialogTitle="@string/alarm_label" />-->
+<!--</PreferenceScreen>-->
+
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/action_settings">
+    <CheckBoxPreference android:key="alarm_enabled"
+        android:title="@string/alarm_enabled"
+        android:summaryOn="开启"
+        android:summaryOff="关闭"/>
+    <CheckBoxPreference android:key="alarm_vibrate"
+        android:title="@string/alarm_vibrate"
+        android:summaryOn="有振动"
+        android:summaryOff="无振动"/>
+    <MultiSelectListPreference android:key="alarm_repeat"
+        android:title="重复"
+        android:summary=""/>
+    <ListPreference android:key="alarm_snooze"
+        android:title="贪睡模式"
+        android:summary="无"/>
+    <EditTextPreference android:key="alarm_label"
+        android:title="biaoqian"
+        android:summary="biaoqian"/>
+</PreferenceScreen>

@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AlarmNOW</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">闹太套</string>
     <string name="action_settings">Settings</string>
-    <string name="button_add">Add Alarm</string>
+    <string name="button_add">添加闹钟</string>
+    <string name="setting_title">设置闹钟</string>
+    <string name="alarm_enabled">闹钟开启</string>
+    <string name="alarm_label">标签</string>
+    <string name="alarm_vibrate">振动</string>
+    <string name="alarm_time">时间</string>
+    <string name="title_activity_set_alarm">SetAlarmActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="button_ok">完成</string>
+    <string name="button_cancel">取消</string>
 
 </resources>

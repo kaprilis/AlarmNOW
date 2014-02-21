@@ -1,30 +1,18 @@
 package com.whaim.alarmnow.app;
 
-import android.content.Intent;
+import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-public class MainActivity extends ActionBarActivity {
-
-    private Button mButtonAdd;
+public class SettingsActivity extends PreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        this.mButtonAdd=(Button) findViewById(R.id.button_add);
-        this.mButtonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
+        setContentView(R.layout.activity_settings);
+        addPreferencesFromResource(R.xml.pref_settings);
     }
 
 
@@ -32,7 +20,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
