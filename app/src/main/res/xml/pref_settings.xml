@@ -32,11 +32,15 @@
         android:summaryOff="无振动"/>
     <MultiSelectListPreference android:key="alarm_repeat"
         android:title="重复"
+        android:entries="@array/weekdays"
+        android:entryValues="@array/weekdays"
         android:summary=""/>
     <ListPreference android:key="alarm_snooze"
         android:title="贪睡模式"
-        android:summary="无"/>
+        android:entries="@array/snooze"
+        android:entryValues="@array/snooze_value"
+        android:summary=""/>
     <EditTextPreference android:key="alarm_label"
-        android:title="biaoqian"
-        android:summary="biaoqian"/>
+        android:title="标签"
+        android:summary="标签"/>
 </PreferenceScreen>
