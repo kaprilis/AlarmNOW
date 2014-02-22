@@ -24,6 +24,15 @@
             android:name="com.whaim.alarmnow.app.TestSettingsActivity"
             android:label="@string/title_activity_test_settings" >
         </activity>
+
+        <receiver
+            android:name="com.whaim.alarmnow.app.AlarmReceiver"
+            android:process=":remote" />
+
+        <activity
+            android:name="com.whaim.alarmnow.app.AlarmAlertActivity"
+            android:label="@string/title_activity_alarm_alert" >
+        </activity>
     </application>
 
 </manifest>

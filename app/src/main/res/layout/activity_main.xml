@@ -11,14 +11,32 @@
         android:id="@+id/analogClock"
         android:layout_gravity="center_horizontal" />
 
-    <Button
+    <DigitalClock
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_add"
-        android:id="@+id/button_add" />
+        android:id="@+id/digitalClock"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="这里是闹铃列表。。。暂时没有。\n闹铃1      8：00      不重复\n闹铃2      9：00      每天\n差不多就是这样样子了。"
+        android:id="@+id/textView"
+        android:layout_weight="0" />
 
     <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_weight="1" />
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listView" />
+        android:text="@string/button_add"
+        android:id="@+id/button_add"
+        style="@android:style/ButtonBar" />
+
+
 </LinearLayout>

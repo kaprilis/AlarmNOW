@@ -6,28 +6,38 @@
     tools:context="com.whaim.alarmnow.app.SettingsActivity">
 
 
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePicker"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal" />
+
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:id="@+id/listView"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:id="@android:id/list"
+        android:layout_weight="1"
+        android:drawSelectorOnTop="false"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        style="@android:style/ButtonBar">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_ok"
-            android:id="@+id/button_ok" />
+            android:id="@+id/button_save"
+            android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_cancel"
-            android:id="@+id/button_cancel" />
+            android:id="@+id/button_delete"
+            android:layout_weight="1" />
     </LinearLayout>
 </LinearLayout>

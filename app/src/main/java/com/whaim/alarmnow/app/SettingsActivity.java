@@ -1,5 +1,9 @@
 package com.whaim.alarmnow.app;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -12,26 +16,77 @@ import android.preference.RingtonePreference;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TimePicker;
 
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 public class SettingsActivity extends PreferenceActivity {
 
+    private TimePicker timePicker;
+    private Button buttonSave;
+    private Button buttonDelete;
+
+    private AlarmManager alarmManager;
+    private Alarm alarm;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_settings);
         addPreferencesFromResource(R.xml.pref_settings);
-        System.out.println('0');
+
         bindPreferenceSummaryToValue(findPreference("alarm_snooze"));
         bindPreferenceSummaryToValue(findPreference("alarm_label"));
         bindPreferenceSummaryToValue(findPreference("alarm_repeat"));
+        bindPreferenceSummaryToValue(findPreference("alarm_ringtone"));
 
+        timePicker=(TimePicker)findViewById(R.id.timePicker);
+        buttonSave=(Button)findViewById(R.id.button_save);
+        buttonDelete=(Button)findViewById(R.id.button_delete);
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setAlarm();
+                alarm.set();
+                SettingsActivity.this.finish();
+            }
+        });
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setAlarm();
+                alarm.cancel();
+                SettingsActivity.this.finish();
+            }
+        });
+
+    }
+
+    private void setAlarm() {
+        Time time=new Time();
+        time.setToNow();
+        time.hour=timePicker.getCurrentHour();
+        time.minute=timePicker.getCurrentMinute();
+        time.second=0;
+        alarm=new Alarm(this);
+        alarm.mTime=time.toMillis(true);
+        alarm.mSnooze=PreferenceManager.getDefaultSharedPreferences(this).getString("alarm_snooze", "");
+        alarm.mEnabled=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("alarm_enabled",true);
+        alarm.mRepeat=PreferenceManager.getDefaultSharedPreferences(this).getStringSet("alarm_repeat",new HashSet<String>());
+        alarm.mRingtone=PreferenceManager.getDefaultSharedPreferences(this).getString("alarm_ringtone","");
+        alarm.mVibrate=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("alarm_vibrate",true);
+        alarm.mLabel=PreferenceManager.getDefaultSharedPreferences(this).getString("alarm_label","");
     }
 
 
@@ -75,41 +130,45 @@ public class SettingsActivity extends PreferenceActivity {
                         index >= 0
                                 ? listPreference.getEntries()[index]
                                 : null);
-            } else {
-                if (preference instanceof MultiSelectListPreference) {
-                    System.out.println('1');
+            } else if (preference instanceof MultiSelectListPreference) {
                     Set<String> values = (Set<String>) value;
-                    System.out.println('2');
                     String summary=new String();
-                    System.out.println('3');
                     CharSequence[] entries = ((MultiSelectListPreference) preference).getEntries();
-                    System.out.println('4');
                     CharSequence[] entryValues=((MultiSelectListPreference) preference).getEntryValues();
-                    System.out.println('5');
                     if (values.size() == 0) {
                         preference.setSummary("无");
                     } else {
-                        for(int i=0;i<=entries.length;++i){
-                            System.out.println(entries[i]);
-                            if(values.contains(entryValues[i].toString())){
-                                summary+=entries[i].toString()+' ';
+                        if(values.size()!=7){
+                            for(int i=0;i<entries.length;++i){
+                                if(values.contains(entryValues[i].toString())){
+                                    summary+=entries[i].toString()+' ';
+                                }
+                            }
+                                if (summary.contentEquals("周一 周二 周三 周四 周五 ")){
+                                    summary="工作日";
+                                }
+                                if (summary.contentEquals("周六 周日 ")){
+                                    summary="周末";
+                                }
+
+                                preference.setSummary(summary);
+                            } else{
+                                preference.setSummary("每天");
                             }
                         }
-                        preference.setSummary(summary);
-                    }
-                } else if (preference instanceof RingtonePreference) {
-                    // For ringtone preferences, look up the correct display value
-                    // using RingtoneManager.
-                    if (TextUtils.isEmpty(value.toString())) {
-                        // Empty values correspond to 'silent' (no ringtone).
-                        preference.setSummary(R.string.pref_ringtone_silent);
+            } else if (preference instanceof RingtonePreference) {
+                        // For ringtone preferences, look up the correct display value
+                        // using RingtoneManager.
+                        if (TextUtils.isEmpty(value.toString())) {
+                            // Empty values correspond to 'silent' (no ringtone).
+                            preference.setSummary("静音");
 
-                    } else {
-                        Ringtone ringtone = RingtoneManager.getRingtone(
-                                preference.getContext(), Uri.parse(value.toString()));
+                        } else {
+                            Ringtone ringtone = RingtoneManager.getRingtone(
+                                    preference.getContext(), Uri.parse(value.toString()));
 
-                        if (ringtone == null) {
-                            // Clear the summary if there was a lookup error.
+                            if (ringtone == null) {
+                                // Clear the summary if there was a lookup error.
                             preference.setSummary(null);
                         } else {
                             // Set the summary to reflect the new ringtone display
@@ -119,11 +178,10 @@ public class SettingsActivity extends PreferenceActivity {
                         }
                     }
 
-                } else {
+            } else {
                     // For all other preferences, set the summary to the value's
                     // simple string representation.
                     preference.setSummary(value.toString());
-                }
             }
             return true;
         }
@@ -145,7 +203,7 @@ public class SettingsActivity extends PreferenceActivity {
         // Trigger the listener immediately with the preference's
         // current value.
         Object value;
-
+        System.out.println(preference.getContext());
         if (preference instanceof MultiSelectListPreference){
             value=PreferenceManager
                     .getDefaultSharedPreferences(preference.getContext())
